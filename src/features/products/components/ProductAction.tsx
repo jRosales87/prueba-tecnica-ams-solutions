@@ -40,101 +40,124 @@ export const ProductAction = ({ product }: Props) => {
 
 
     return (
-        <div className="space-y-6">
+        <aside className="space-y-6" role="complementary" aria-label="Opciones de compra del producto">
             <div className="pb-6 border-b">
-                <p className="text-sm text-muted-foreground mb-2">Precio</p>
-                <p className="text-4xl font-bold text-primary">
+                <h2 className="text-sm text-gray-600 mb-2">Precio</h2>
+                <p
+                    className="text-4xl font-bold text-primary"
+                    aria-label={product.price ? `Precio: ${product.price} euros` : 'Precio no disponible'}
+                >
                     {product.price ? `${product.price} €` : 'Precio no disponible'}
                 </p>
             </div>
 
+            <form onSubmit={(e) => { e.preventDefault(); handleAddToCart(); }} role="form" aria-label="Configurar producto">
+                <fieldset className="space-y-3 mb-6">
+                    <legend className="text-sm font-medium">
+                        Seleccionar color
+                    </legend>
+                    <div className="flex flex-wrap gap-2" role="radiogroup" aria-required="true">
+                        {product.options.colors.map((color, index) => (
+                            <div key={color.code} className="relative">
+                                <input
+                                    type="radio"
+                                    id={`color-${color.code}`}
+                                    name="color"
+                                    value={color.code}
+                                    defaultChecked={index === 0}
+                                    className="peer sr-only"
+                                    onChange={() => setSelectedColor(color.code)}
+                                    aria-describedby={`color-${color.code}-desc`}
+                                />
+                                <label
+                                    htmlFor={`color-${color.code}`}
+                                    className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-100 hover:border-gray-400 peer-checked:bg-black peer-checked:text-white peer-checked:border-black peer-checked:hover:bg-gray-800 peer-checked:hover:border-gray-800 min-w-[80px] focus-within:ring-2 focus-within:ring-blue-500"
+                                >
+                                    {color.name}
+                                </label>
+                                <span id={`color-${color.code}-desc`} className="sr-only">
+                                    Color {color.name}
+                                </span>
+                            </div>
+                        ))}
+                    </div>
+                </fieldset>
 
-            <div className="space-y-3">
-                <p className="text-sm font-medium">
-                    Color
-                </p>
-                <div className="flex flex-wrap gap-2">
-                    {product.options.colors.map((color, index) => (
-                        <div key={color.code} className="relative">
-                            <input
-                                type="radio"
-                                id={`color-${color.code}`}
-                                name="color"
-                                value={color.code}
-                                defaultChecked={index === 0}
-                                className="peer sr-only"
-                                onChange={() => setSelectedColor(color.code)}
-                            />
-                            <label
-                                htmlFor={`color-${color.code}`}
-                                className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-100 hover:border-gray-400 peer-checked:bg-black peer-checked:text-white peer-checked:border-black peer-checked:hover:bg-gray-800 peer-checked:hover:border-gray-800 min-w-[80px]"
-                            >
-                                {color.name}
-                            </label>
-                        </div>
-                    ))}
-                </div>
+                <fieldset className="space-y-3 mb-6">
+                    <legend className="text-sm font-medium">
+                        Seleccionar almacenamiento
+                    </legend>
+                    <div className="flex flex-wrap gap-2" role="radiogroup" aria-required="true">
+                        {product.options.storages.map((storage, index) => (
+                            <div key={storage.code} className="relative">
+                                <input
+                                    type="radio"
+                                    id={`storage-${storage.code}`}
+                                    name="storage"
+                                    value={storage.code}
+                                    defaultChecked={index === 0}
+                                    className="peer sr-only"
+                                    onChange={() => setSelectedStorage(storage.code)}
+                                    aria-describedby={`storage-${storage.code}-desc`}
+                                />
+                                <label
+                                    htmlFor={`storage-${storage.code}`}
+                                    className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-100 hover:border-gray-400 peer-checked:bg-black peer-checked:text-white peer-checked:border-black peer-checked:hover:bg-gray-800 peer-checked:hover:border-gray-800 min-w-[100px] focus-within:ring-2 focus-within:ring-blue-500"
+                                >
+                                    {storage.name}
+                                </label>
+                                <span id={`storage-${storage.code}-desc`} className="sr-only">
+                                    Almacenamiento {storage.name}
+                                </span>
+                            </div>
+                        ))}
+                    </div>
+                </fieldset>
+
+                <button
+                    type="submit"
+                    disabled={!canAddToCart}
+                    className="flex w-full items-center justify-center bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                    aria-describedby="add-to-cart-status"
+                    aria-live="polite"
+                >
+                    {isLoading ? (
+                        <>
+                            <Loader2 className="mr-2 h-5 w-5 animate-spin" aria-hidden="true" />
+                            Añadiendo...
+                        </>
+                    ) : showSuccessMessage ? (
+                        <>
+                            <Check className="mr-2 h-5 w-5" aria-hidden="true" />
+                            ¡Añadido al carrito!
+                        </>
+                    ) : (
+                        <>
+                            <ShoppingCart className="mr-2 h-5 w-5" aria-hidden="true" />
+                            Añadir al carrito
+                        </>
+                    )}
+                </button>
+            </form>
+
+            <div id="add-to-cart-status" className="sr-only" aria-live="polite" aria-atomic="true">
+                {isLoading && "Añadiendo producto al carrito"}
+                {showSuccessMessage && "Producto añadido exitosamente al carrito"}
+                {addToCartMutation.isError && "Error al añadir el producto al carrito"}
             </div>
 
-
-            <div className="space-y-3">
-                <p className="text-sm font-medium">
-                    Almacenamiento
-                </p>
-                <div className="flex flex-wrap gap-2">
-                    {product.options.storages.map((storage, index) => (
-                        <div key={storage.code} className="relative">
-                            <input
-                                type="radio"
-                                id={`storage-${storage.code}`}
-                                name="storage"
-                                value={storage.code}
-                                defaultChecked={index === 0}
-                                className="peer sr-only"
-                                onChange={() => setSelectedStorage(storage.code)}
-                            />
-                            <label
-                                htmlFor={`storage-${storage.code}`}
-                                className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-100 hover:border-gray-400 peer-checked:bg-black peer-checked:text-white peer-checked:border-black peer-checked:hover:bg-gray-800 peer-checked:hover:border-gray-800 min-w-[100px]"
-                            >
-                                {storage.name}
-                            </label>
-                        </div>
-                    ))}
-                </div>
-            </div>
-
-
-            <button
-                disabled={!canAddToCart}
-                onClick={handleAddToCart}
-                className="flex w-full items-center justify-center bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:bg-gray-400"
-            >
-                {isLoading ? (
-                    <>
-                        <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                        Añadiendo...
-                    </>
-                ) : showSuccessMessage ? (
-                    <>
-                        <Check className="mr-2 h-5 w-5" />
-                        ¡Añadido al carrito!
-                    </>
-                ) : (
-                    <>
-                        <ShoppingCart className="mr-2 h-5 w-5" />
-                        Añadir al carrito
-                    </>
-                )}
-            </button>
             {/* Mensaje de error si falla */}
             {addToCartMutation.isError && (
-                <p className="text-sm text-red-600 text-center bg-red-50 p-2 rounded">
-                    Error: {addToCartMutation.error instanceof Error
+                <div
+                    className="text-sm text-red-600 text-center bg-red-50 p-2 rounded border border-red-200"
+                    role="alert"
+                    aria-live="assertive"
+                >
+                    <strong>Error:</strong> {addToCartMutation.error instanceof Error
                         ? addToCartMutation.error.message
                         : 'Error al añadir al carrito. Inténtalo de nuevo.'}
-                </p>
+                </div>
             )}
-        </div>
+        </aside>
     )
 }

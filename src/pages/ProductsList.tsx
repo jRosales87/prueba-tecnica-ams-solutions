@@ -1,3 +1,4 @@
+import { ProductCard } from "@/features/products/components/ProductCard";
 import { useProductsQuery } from "@/features/products/hooks/useProduct";
 import { SearchBar } from "@/features/shared/components/SearchBar";
 import { useCallback, useMemo, useState } from "react";
@@ -68,12 +69,10 @@ export const ProductsList = () => {
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                     {filteredProducts.map((product) => (
-                        <div
+                        <ProductCard
                             key={product.id}
-                            className="border rounded-lg p-4 flex flex-col items-center"
-                        >
-                            <p>{product.model}</p>
-                        </div>
+                            product={product}
+                        />
                     ))}
                 </div>
             )}

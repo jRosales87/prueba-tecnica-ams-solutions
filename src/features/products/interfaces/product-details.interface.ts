@@ -41,10 +41,15 @@ export interface ProductDetails {
 
 export interface Options {
     colors: Color[];
-    storages: Color[];
+    storages: Storage[];
 }
 
 export interface Color {
     code: number;
     name: string;
 }
+
+export interface Storage {
+    code: number;
+    name: string;
+}   

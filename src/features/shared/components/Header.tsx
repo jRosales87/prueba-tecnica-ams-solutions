@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom"
 import { ShoppingCart } from "lucide-react"
+import { useCartStore } from "@/features/cart/store";
 
 
 export const Header = () => {
-    const count = 0;
+    const count = useCartStore((state) => state.count);
+
     return (
         <header className="sticky top-0 z-50 w-full border-b bg-white">
             <div className="container mx-auto px-4">
@@ -19,8 +21,7 @@ export const Header = () => {
 
                     {/* Contador del carrito */}
                     <div className="flex items-center">
-                        <Link
-                            to="/cart"
+                        <p
                             className="relative flex items-center hover:text-primary transition-colors"
                         >
                             <ShoppingCart size={24} />
@@ -29,7 +30,7 @@ export const Header = () => {
                                     {count}
                                 </span>
                             )}
-                        </Link>
+                        </p>
                     </div>
                 </div>
 

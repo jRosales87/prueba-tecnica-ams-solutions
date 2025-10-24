@@ -2,6 +2,7 @@
 import { Layouts } from '@/features/shared/components';
 import { ProductDetail } from '../../pages/ProductDetail';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { ProductsList } from '@/pages/ProductsList';
 
 
 const router = createBrowserRouter([
@@ -11,7 +12,7 @@ const router = createBrowserRouter([
         children: [
             {
                 index: true,
-                element: <div>Welcome to the Layouts Management App</div>
+                element: <ProductsList />
             },
             {
                 path: 'products/:id',

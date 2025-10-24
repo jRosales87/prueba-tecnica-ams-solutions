@@ -1,12 +1,12 @@
 import { Outlet, Link } from "react-router-dom"
+import { Header } from "./Header"
 
 
 export const Layouts = () => {
     return (
         <div className="wrapper">
-            <header className="p-4 bg-gray-100">
-                <h1 className="text-2xl font-bold">E-Commerce App</h1>
-            </header>
+            {/* header */}
+            <Header />
 
             <main className="p-4">
                 <Outlet />

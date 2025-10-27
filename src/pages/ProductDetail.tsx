@@ -1,6 +1,7 @@
 import { ProductAction } from '@/features/products/components';
 import { useProductQuery } from '@/features/products/hooks/useProduct';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
+import { ArrowLeft } from 'lucide-react';
 
 export const ProductDetail = () => {
     const { id } = useParams<{ id: string }>();
@@ -40,22 +41,27 @@ export const ProductDetail = () => {
     // Renderizar los detalles del producto
     return (
         <main className="container mx-auto px-4 py-8" role="main">
-            <article>
-                <header className='mb-10'>
-                    <h1 className="text-3xl font-bold">{product?.model}</h1>
-                    <p className="text-xl text-gray-600" aria-label={`Marca: ${product?.brand}`}>
-                        {product?.brand}
-                    </p>
-                </header>
+            {/* Botón Volver al listado */}
+            <div className="mb-6">
+                <Link
+                    to="/"
+                    className="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
+                    aria-label="Volver a la lista de productos"
+                >
+                    <ArrowLeft className="w-4 h-4 mr-2" aria-hidden="true" />
+                    Volver al listado
+                </Link>
+            </div>
 
+            <article>
                 <div className='flex gap-10 mb-10'>
-                    <figure className="flex-shrink-0">
-                        <img
-                            src={product?.imgUrl}
-                            alt={`Imagen del ${product?.model} de ${product?.brand}`}
-                            className="w-96 h-96 object-contain"
-                        />
-                    </figure>
+
+                    <img
+                        src={product?.imgUrl}
+                        alt={`Imagen del ${product?.model} de ${product?.brand}`}
+                        className="w-96 h-96 object-contain"
+                    />
+
                     {product && <ProductAction product={product} />}
                 </div>
 

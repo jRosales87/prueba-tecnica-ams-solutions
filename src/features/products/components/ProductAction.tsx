@@ -41,13 +41,19 @@ export const ProductAction = ({ product }: Props) => {
 
     return (
         <aside className="space-y-6" role="complementary" aria-label="Opciones de compra del producto">
+            <div>
+                <h1 className="text-3xl font-bold">{product?.model}</h1>
+                <p className="text-xl text-gray-600" aria-label={`Marca: ${product?.brand}`}>
+                    Marca: {product?.brand}
+                </p>
+            </div>
             <div className="pb-6 border-b">
                 <h2 className="text-sm text-gray-600 mb-2">Precio</h2>
                 <p
                     className="text-4xl font-bold text-primary"
                     aria-label={product.price ? `Precio: ${product.price} euros` : 'Precio no disponible'}
                 >
-                    {product.price ? `${product.price} €` : 'Precio no disponible'}
+                    {product.price ? `${product.price} €` : 'No disponible'}
                 </p>
             </div>
 
@@ -71,7 +77,7 @@ export const ProductAction = ({ product }: Props) => {
                                 />
                                 <label
                                     htmlFor={`color-${color.code}`}
-                                    className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-100 hover:border-gray-400 peer-checked:bg-black peer-checked:text-white peer-checked:border-black peer-checked:hover:bg-gray-800 peer-checked:hover:border-gray-800 min-w-[80px] focus-within:ring-2 focus-within:ring-blue-500"
+                                    className="inline-flex items-center justify-center px-4 py-2 text-sm font-medium border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-100 hover:border-gray-400 peer-checked:bg-black peer-checked:text-white peer-checked:border-black peer-checked:hover:bg-gray-800 peer-checked:hover:border-gray-800 min-w-20 focus-within:ring-2 focus-within:ring-blue-500"
                                 >
                                     {color.name}
                                 </label>
@@ -116,7 +122,7 @@ export const ProductAction = ({ product }: Props) => {
 
                 <button
                     type="submit"
-                    disabled={!canAddToCart}
+                    disabled={!canAddToCart || !product.price}
                     className="flex w-full items-center justify-center bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                     aria-describedby="add-to-cart-status"
                     aria-live="polite"

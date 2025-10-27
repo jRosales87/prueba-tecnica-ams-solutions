@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom"
 import { ShoppingCart } from "lucide-react"
 import { useCartStore } from "@/features/cart/store";
+import { Breadcrumb } from "./Breadcrumb";
 
 
 export const Header = () => {
@@ -29,7 +30,7 @@ export const Header = () => {
                         >
                             <ShoppingCart size={24} aria-hidden="true" />
                             {count > 0 && (
-                                <span 
+                                <span
                                     id="cart-count"
                                     className="absolute -top-2 -right-2 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-600 rounded-full"
                                     aria-live="polite"
@@ -43,9 +44,7 @@ export const Header = () => {
                 </nav>
 
                 {/* Breadcrumbs */}
-                <nav className="pb-4" role="navigation" aria-label="Breadcrumb">
-
-                </nav>
+                <Breadcrumb />
             </div>
         </header>
     )

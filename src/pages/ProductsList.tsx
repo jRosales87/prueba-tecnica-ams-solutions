@@ -1,6 +1,7 @@
 import { ProductCard } from "@/features/products/components/ProductCard";
 import { useProductsQuery } from "@/features/products/hooks/useProduct";
 import { SearchBar } from "@/features/shared/components/SearchBar";
+import { ScrollToTop } from "@/features/shared/components/ScrollToTop";
 import { useCallback, useMemo, useState } from "react";
 
 
@@ -105,6 +106,9 @@ export const ProductsList = () => {
                     </div>
                 )}
             </section>
+
+            {/* Botón flotante Scroll to Top */}
+            <ScrollToTop />
         </main>
     )
 }

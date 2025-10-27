@@ -11,14 +11,14 @@ export const useBreadcrumbs = (): BreadcrumbItem[] => {
     const location = useLocation();
     const params = useParams();
 
-    // Obtener información del producto si estamos en una página de producto
+
     const productId = params.id;
     const { data: product } = useProductQuery(productId || '');
 
     const generateBreadcrumbs = (): BreadcrumbItem[] => {
         const breadcrumbs: BreadcrumbItem[] = [];
 
-        // Siempre añadir "Inicio" como primer elemento
+
         const isHome = location.pathname === '/';
         breadcrumbs.push({
             label: 'Inicio',
@@ -26,9 +26,9 @@ export const useBreadcrumbs = (): BreadcrumbItem[] => {
             isCurrentPage: isHome
         });
 
-        // Si no estamos en home, añadir elementos específicos según la ruta
+
         if (!isHome) {
-            // Ruta de producto individual
+
             if (location.pathname.startsWith('/product/') && productId) {
                 const productLabel = product
                     ? `${product.brand} ${product.model}`

@@ -107,7 +107,6 @@ export const ProductsList = () => {
                 )}
             </section>
 
-            {/* Botón flotante Scroll to Top */}
             <ScrollToTop />
         </main>
     )

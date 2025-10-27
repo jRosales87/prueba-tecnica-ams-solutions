@@ -5,7 +5,7 @@ import { useBreadcrumbs, type BreadcrumbItem } from '../hooks/useBreadcrumbs';
 export const Breadcrumb = () => {
     const breadcrumbs = useBreadcrumbs();
 
-    // Siempre mostrar el breadcrumb, incluso con un solo elemento
+
     return (
         <nav
             role="navigation"
@@ -42,7 +42,7 @@ const BreadcrumbLink = ({ item, isFirst }: BreadcrumbLinkProps) => {
     const linkClasses = `${baseClasses} text-gray-600 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 rounded`;
     const currentClasses = `${baseClasses} text-gray-900 font-medium`;
 
-    // Si es la página actual, renderizar como span
+
     if (item.isCurrentPage) {
         return (
             <span
@@ -55,7 +55,7 @@ const BreadcrumbLink = ({ item, isFirst }: BreadcrumbLinkProps) => {
         );
     }
 
-    // Si tiene href, renderizar como Link
+
     if (item.href) {
         return (
             <Link
@@ -69,7 +69,7 @@ const BreadcrumbLink = ({ item, isFirst }: BreadcrumbLinkProps) => {
         );
     }
 
-    // Fallback: renderizar como span sin enlace
+
     return (
         <span className={currentClasses}>
             {isFirst && <Home className="h-4 w-4 mr-1" aria-hidden="true" />}
